@@ -35,4 +35,4 @@ $ pnpm run test:cov
 ```
 ## Stay in touch
 
-- Author - [Matin Jiryaei Sharahi](https://www.linked.com/in/matinjiri)
+- Author - [Matin Jiryaei Sharahi](https://www.linkedin.com/in/matinjiri)
