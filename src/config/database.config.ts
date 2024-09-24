@@ -14,4 +14,5 @@ export default registerAs("database", () => ({
       : false,
   autoLoadModels: true,
   logging: process.env.NODE_ENV === "development" ? true : false,
+  entities: [__dirname + "/../**/*.entity{.ts,.js}"],
 }));
