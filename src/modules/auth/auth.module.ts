@@ -2,6 +2,7 @@ import { Module } from "@nestjs/common";
 import { AuthController } from "./auth.controller";
 import { JwtModule } from "@nestjs/jwt";
 import { AuthService } from "./auth.service";
+import { RedisService } from "src/shared/services/cach/redis.service";
 
 @Module({
   imports: [
@@ -13,6 +14,6 @@ import { AuthService } from "./auth.service";
 
   ],
   controllers: [AuthController],
-  providers: [AuthService]
+  providers: [AuthService, RedisService],
 })
 export class AuthModule {}

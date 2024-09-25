@@ -6,7 +6,6 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { AuthModule } from "./modules/auth/auth.module";
 import { CacheModule } from "@nestjs/cache-manager";
 import redisConfig from "./config/redis.config";
-import { RedisService } from "./shared/services/cach/redis.service";
 
 @Module({
   imports: [
@@ -20,12 +19,12 @@ import { RedisService } from "./shared/services/cach/redis.service";
       useFactory: async (config: ConfigService) => config.get("database") 
     }),
     CacheModule.registerAsync({
+      isGlobal: true,
       inject: [ConfigService],
       useFactory: async (config: ConfigService) => config.get("redis"),
     }),
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [RedisService],
 })
 export class AppModule {}
