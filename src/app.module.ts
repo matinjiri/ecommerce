@@ -3,6 +3,7 @@ import { AppController } from "./app.controller";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import databaseConfig from "./config/database.config";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { AuthModule } from "./modules/auth/auth.module";
 
 @Module({
   imports: [
@@ -16,7 +17,8 @@ import { TypeOrmModule } from "@nestjs/typeorm";
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: async (config: ConfigService) => config.get("database") 
-    })
+    }),
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [],
