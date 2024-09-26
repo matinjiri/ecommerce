@@ -5,7 +5,7 @@ import { AuthService } from "./auth.service";
 import { RedisService } from "src/shared/services/cach/redis.service";
 import { LoginStrategyFactory } from "./factories/login.factory";
 import { EmailLoginStrategy } from "./strategies/email-login.strategy";
-import { PhoneLoginStrategy } from "./strategies/phone-login.strategy";
+import { SmsLoginStrategy } from "./strategies/sms-login.strategy";
 
 @Module({
   imports: [
@@ -22,7 +22,7 @@ import { PhoneLoginStrategy } from "./strategies/phone-login.strategy";
     RedisService,
     LoginStrategyFactory,
     EmailLoginStrategy,
-    PhoneLoginStrategy
+    SmsLoginStrategy
   ],
 })
 export class AuthModule {}

@@ -1,7 +1,7 @@
 import { LoginDto } from "src/common/dtos/auth/login.dto";
 import { ILoginStrategy } from "../interfaces/login-strategy.interface";
 
-export class PhoneLoginStrategy implements ILoginStrategy {
+export class SmsLoginStrategy implements ILoginStrategy {
   login(loginDto: LoginDto){
     
   }
