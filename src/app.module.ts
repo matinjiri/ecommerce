@@ -6,6 +6,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { AuthModule } from "./modules/auth/auth.module";
 import { CacheModule } from "@nestjs/cache-manager";
 import redisConfig from "./config/redis.config";
+import { OtpModule } from "./modules/otp/otp.module";
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import redisConfig from "./config/redis.config";
       useFactory: async (config: ConfigService) => config.get("redis"),
     }),
     AuthModule,
+    OtpModule
   ],
   controllers: [AppController],
 })
