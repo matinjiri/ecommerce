@@ -3,14 +3,20 @@ import { ILoginStrategyFactory } from "../interfaces/login-strategy-factory.inte
 import { ILoginStrategy } from "../interfaces/login-strategy.interface";
 import { EmailLoginStrategy } from "../strategies/email-login.strategy";
 import { PhoneLoginStrategy } from "../strategies/phone-login.strategy";
+import { Injectable } from "@nestjs/common";
 
+@Injectable()
 export class LoginStrategyFactory implements ILoginStrategyFactory {
+  constructor(
+    private emailLoginStrategy: EmailLoginStrategy,
+    private phoneLoginStrategy: PhoneLoginStrategy
+  ){}
   create(authenticationMethod: AuthenticationMethod): ILoginStrategy {
     switch (authenticationMethod) {
       case AuthenticationMethod.EMAIL:
-        return new EmailLoginStrategy();
+        return this.emailLoginStrategy;
       case AuthenticationMethod.PHONE:
-        return new PhoneLoginStrategy();
+        return this.phoneLoginStrategy;
       default:
         throw new Error("Invalid authentication method");
     }

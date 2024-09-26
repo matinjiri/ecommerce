@@ -7,11 +7,11 @@ import { LoginStrategyFactory } from "./factories/login.factory";
 export class AuthService {
   constructor(
     private jwtService: JwtService,
+    private loginStrategyFactory: LoginStrategyFactory,
   ){}
   async login(loginDto: LoginDto) {
-    const factory = new LoginStrategyFactory();
-    const strategy = factory.create(loginDto.authenticationMethod);
-    strategy.login(loginDto)
+    const loginStrategy = this.loginStrategyFactory.create(loginDto.authenticationMethod);
+    loginStrategy.login(loginDto);
     const payload = { sub: 1 };
     return {
       access_token: await this.jwtService.signAsync(payload),
