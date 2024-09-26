@@ -1,4 +1,4 @@
 export enum AuthenticationMethod {
   EMAIL = 'email',
-  PHONE = 'phone',
+  SMS = 'sms',
 }
