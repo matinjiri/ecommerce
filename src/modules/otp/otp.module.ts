@@ -13,7 +13,7 @@ import { SmsOtpStrategy } from "./strategy/email-otp.strategy";
     EmailOtpStrategy,
     SmsOtpStrategy
   ],
-  exports: [ // allows otp module to share its providers with other modules. 
+  exports: [ // allows otp module to share its providers(otpService) with other modules. 
     SendOtpFactory, 
     RedisService, 
   ]

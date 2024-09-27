@@ -8,6 +8,8 @@ import { EmailLoginStrategy } from "./strategies/email-login.strategy";
 import { SmsLoginStrategy } from "./strategies/sms-login.strategy";
 import { OtpService } from "../otp/otp.service";
 import { OtpModule } from "../otp/otp.module";
+import { UserService } from "../user/user.service";
+import { UserModule } from "../user/user.module";
 
 @Module({
   imports: [
@@ -16,7 +18,8 @@ import { OtpModule } from "../otp/otp.module";
       secret: 'secret',
       signOptions: { expiresIn: '60s' },
     }),
-    OtpModule
+    OtpModule,
+    UserModule
   ],
   controllers: [AuthController],
   providers: [
@@ -24,7 +27,8 @@ import { OtpModule } from "../otp/otp.module";
     LoginStrategyFactory,
     EmailLoginStrategy,
     SmsLoginStrategy,
-    OtpService
+    OtpService,
+    UserService
   ],
 })
 export class AuthModule {}
