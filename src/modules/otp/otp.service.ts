@@ -5,6 +5,7 @@ import { SendOtpFactory } from "./factories/send-otp.factory";
 import { User } from "src/database/entities/user.entity";
 import { randomBytes } from "crypto";
 import IOtpCache from "./interface/otp-cach.interface";
+import VerifyOtpDto from "src/common/dtos/otp/verify-otp";
 
 @Injectable()
 export class OtpService {
@@ -40,15 +41,11 @@ export class OtpService {
     await otpSenderStrategy.send(code, to);
     return verificationToken;
   }
-
-  async verifyOtp(
-    verificationToken: string,
-    code: string,
-  ): Promise<number> {
-    const foundOtp = await this.redisService.get<IOtpCache>(verificationToken);
+  async verifyOtp(verifyOtpDto: VerifyOtpDto): Promise<number> {
+    const foundOtp = await this.redisService.get<IOtpCache>(verifyOtpDto.verificationToken);
     if (!foundOtp) throw new BadRequestException();
-    if (foundOtp.code !== code) throw new BadRequestException();
-    await this.redisService.delete(verificationToken);
+    if (foundOtp.code !== verifyOtpDto.otpCode) throw new BadRequestException();
+    await this.redisService.delete(verifyOtpDto.verificationToken);
     return foundOtp.userId;
   }
 }
