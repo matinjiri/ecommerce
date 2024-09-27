@@ -1,6 +1,3 @@
-import { AuthenticationMethod } from "src/common/enums/auth/athentication-method.enum";
+import { AuthenticationDto } from "./authentication.dto";
 
-export class LoginDto {
-  authenticationMethod: AuthenticationMethod;
-  
-}
+export class LoginDto extends AuthenticationDto {}

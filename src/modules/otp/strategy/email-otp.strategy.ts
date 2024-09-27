@@ -3,6 +3,7 @@ import { ISendOtp } from "../interface/send-otp.interface";
 
 export class SmsOtpStrategy implements ISendOtp {
   async send(code: string, to: User): Promise<string> {
-    return await `${code} sent by sms`;
+    console.log( `${code} sent by ${to.phoneNumber}`);
+    return await `${code} sent by ${to.phoneNumber}`;
   }
 }

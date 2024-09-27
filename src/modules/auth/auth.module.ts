@@ -6,6 +6,8 @@ import { RedisService } from "src/shared/services/cach/redis.service";
 import { LoginStrategyFactory } from "./factories/login.factory";
 import { EmailLoginStrategy } from "./strategies/email-login.strategy";
 import { SmsLoginStrategy } from "./strategies/sms-login.strategy";
+import { OtpService } from "../otp/otp.service";
+import { OtpModule } from "../otp/otp.module";
 
 @Module({
   imports: [
@@ -14,15 +16,15 @@ import { SmsLoginStrategy } from "./strategies/sms-login.strategy";
       secret: 'secret',
       signOptions: { expiresIn: '60s' },
     }),
-
+    OtpModule
   ],
   controllers: [AuthController],
   providers: [
     AuthService, 
-    RedisService,
     LoginStrategyFactory,
     EmailLoginStrategy,
-    SmsLoginStrategy
+    SmsLoginStrategy,
+    OtpService
   ],
 })
 export class AuthModule {}
