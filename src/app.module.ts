@@ -7,12 +7,14 @@ import { AuthModule } from "./modules/auth/auth.module";
 import { CacheModule } from "@nestjs/cache-manager";
 import redisConfig from "./config/redis.config";
 import { OtpModule } from "./modules/otp/otp.module";
+import mailConfig from "./config/mail.config";
+import { MailModule } from "./shared/services/mail/mail.module";
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [databaseConfig, redisConfig],
+      load: [databaseConfig, redisConfig, mailConfig],
       envFilePath: [".env"],
     }),
     TypeOrmModule.forRootAsync({
@@ -24,6 +26,7 @@ import { OtpModule } from "./modules/otp/otp.module";
       inject: [ConfigService],
       useFactory: async (config: ConfigService) => config.get("redis"),
     }),
+    MailModule,
     AuthModule,
     OtpModule
   ],

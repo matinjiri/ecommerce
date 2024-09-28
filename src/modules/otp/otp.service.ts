@@ -27,18 +27,25 @@ export class OtpService {
     const otpSenderStrategy = this.otpSenderFactory.create(otpSenderMethod);
     const code = this.generateOtp();
     const verificationToken = this.generateOtpVerificationToken();
+    // todo
+    const otpExpiration = +process.env.OTP_EXPIRATION;
     const otpCacheData: IOtpCache = {
       userId: to.id,
       code,
-      eat: Date.now() + 120 * 1000,
+      eat: Date.now() + otpExpiration * 1000,
       user: { email: to.email, phone: to.phoneNumber },
     };
     await this.redisService.set(
       verificationToken,
       otpCacheData,
-      120000
+      otpExpiration
     );
-    await otpSenderStrategy.send(code, to);
+    await this.redisService.set(
+      'matin',
+      'hi',
+      
+    );
+    await otpSenderStrategy.send(code, to, otpExpiration);
     return verificationToken;
   }
   async verifyOtp(verifyOtpDto: VerifyOtpDto): Promise<number> {

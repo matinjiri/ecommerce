@@ -1,9 +1,9 @@
 import { ISendOtpFactory } from "../interface/send-otp-factory.interface";
 import { ISendOtp } from "../interface/send-otp.interface";
-import { EmailOtpStrategy } from "../strategy/sms-otp.strategy";
-import { SmsOtpStrategy } from "../strategy/email-otp.strategy";
 import { Injectable } from "@nestjs/common";
 import { AuthenticationMethod } from "src/common/enums/auth/athentication-method.enum";
+import { EmailOtpStrategy } from "../strategy/email-otp.strategy";
+import { SmsOtpStrategy } from "../strategy/sms-otp.strategy";
 
 @Injectable()
 export class SendOtpFactory implements ISendOtpFactory {
