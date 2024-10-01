@@ -6,6 +6,7 @@ import { OtpService } from "../otp/otp.service";
 import VerifyOtpDto from "src/common/dtos/otp/verify-otp";
 import { IJwtPayload } from "./interfaces/jwt-payload.interface";
 import { TokenPair } from "src/common/dtos/auth/token-pair.dto";
+import ResendOtpDto from "src/common/dtos/otp/resend-otp.dto";
 
 @Injectable()
 export class AuthService {
@@ -28,7 +29,7 @@ export class AuthService {
       refreshToken,
     };
   }
-  async login(loginDto: LoginDto) {
+  async login(loginDto: LoginDto): Promise<string> {
     const loginStrategy = this.loginStrategyFactory.create(
       loginDto.authenticationMethod
     );
@@ -42,9 +43,12 @@ export class AuthService {
       throw new InternalServerErrorException(error);
     }
   }
-  async verifyOtp(VerifyOtpDto: VerifyOtpDto) {
+  async verifyOtp(VerifyOtpDto: VerifyOtpDto): Promise<TokenPair> {
     const userId = await this.otpService.verifyOtp(VerifyOtpDto);
     const payload: IJwtPayload = { id: userId };
     return this.generateTokenPair(payload);
+  }
+  async resendOtp(resendOtpDto: ResendOtpDto): Promise<string> {
+    return await this.otpService.resendOtp(resendOtpDto);
   }
 }
