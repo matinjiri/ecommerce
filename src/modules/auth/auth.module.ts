@@ -10,6 +10,9 @@ import { OtpService } from "../otp/otp.service";
 import { OtpModule } from "../otp/otp.module";
 import { UserService } from "../user/user.service";
 import { UserModule } from "../user/user.module";
+import { SignupStrategyFactory } from "./factories/signup.factory";
+import { SmsSignupStrategy } from "./strategies/sms-signup.strategy";
+import { EmailSignupStrategy } from "./strategies/email-signup.strategy";
 
 @Module({
   imports: [
@@ -25,8 +28,11 @@ import { UserModule } from "../user/user.module";
   providers: [
     AuthService, 
     LoginStrategyFactory,
+    SignupStrategyFactory,
     EmailLoginStrategy,
+    EmailSignupStrategy,
     SmsLoginStrategy,
+    SmsSignupStrategy,
     OtpService,
     UserService
   ],

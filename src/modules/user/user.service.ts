@@ -22,4 +22,7 @@ export class UserService {
   async saveUser(user: User): Promise<User> {
     return await this.userRepository.save(user);
   }
+  async verifyUser(userId: number): Promise<void> {
+    await this.userRepository.update(userId, { isVerified: true });
+  }
 }

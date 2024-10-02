@@ -7,13 +7,18 @@ import VerifyOtpDto from "src/common/dtos/otp/verify-otp";
 import { IJwtPayload } from "./interfaces/jwt-payload.interface";
 import { TokenPair } from "src/common/dtos/auth/token-pair.dto";
 import ResendOtpDto from "src/common/dtos/otp/resend-otp.dto";
+import { UserService } from "../user/user.service";
+import SignupDto from "src/common/dtos/auth/signup.dto";
+import { SignupStrategyFactory } from "./factories/signup.factory";
 
 @Injectable()
 export class AuthService {
   constructor(
     private jwtService: JwtService,
     private loginStrategyFactory: LoginStrategyFactory,
-    private otpService: OtpService
+    private signupStrategyFactory: SignupStrategyFactory,
+    private otpService: OtpService,
+    private userService: UserService
   ) {}
   private generateTokenPair(payload: IJwtPayload): TokenPair {
     const accessToken = this.jwtService.sign(payload, {
@@ -40,15 +45,33 @@ export class AuthService {
         foundUser
       );
     } catch (error) {
-      throw new InternalServerErrorException(error);
+      throw new InternalServerErrorException(error.message);
     }
   }
   async verifyOtp(VerifyOtpDto: VerifyOtpDto): Promise<TokenPair> {
     const userId = await this.otpService.verifyOtp(VerifyOtpDto);
     const payload: IJwtPayload = { id: userId };
+    const user = await this.userService.getUserById(userId);
+    if (!user.isVerified) {
+      await this.userService.verifyUser(userId);
+    }
     return this.generateTokenPair(payload);
   }
   async resendOtp(resendOtpDto: ResendOtpDto): Promise<string> {
     return await this.otpService.resendOtp(resendOtpDto);
+  }
+  async signup(signupDto: SignupDto): Promise<string> {
+    const signupStrategy = this.signupStrategyFactory.create(
+      signupDto.authenticationMethod
+    );
+    const createdUser = await signupStrategy.signup(signupDto);
+    try {
+      return await this.otpService.sendOtp(
+        signupDto.authenticationMethod,
+        createdUser
+      );
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
   }
 }
