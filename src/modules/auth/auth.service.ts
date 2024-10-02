@@ -4,12 +4,12 @@ import { LoginDto } from "src/common/dtos/auth/login.dto";
 import { LoginStrategyFactory } from "./factories/login.factory";
 import { OtpService } from "../otp/otp.service";
 import VerifyOtpDto from "src/common/dtos/otp/verify-otp";
-import { IJwtPayload } from "./interfaces/jwt-payload.interface";
 import { TokenPair } from "src/common/dtos/auth/token-pair.dto";
 import ResendOtpDto from "src/common/dtos/otp/resend-otp.dto";
 import { UserService } from "../user/user.service";
 import SignupDto from "src/common/dtos/auth/signup.dto";
 import { SignupStrategyFactory } from "./factories/signup.factory";
+import { IJwtAccesePayload } from "./interfaces/jwt-payload.interface";
 
 @Injectable()
 export class AuthService {
@@ -20,7 +20,7 @@ export class AuthService {
     private otpService: OtpService,
     private userService: UserService
   ) {}
-  private generateTokenPair(payload: IJwtPayload): TokenPair {
+  private generateTokenPair(payload: IJwtAccesePayload): TokenPair {
     const accessToken = this.jwtService.sign(payload, {
       secret: process.env.JWT_ACCESS_SECRET,
       expiresIn: process.env.JWT_ACCESS_EXPIRATION + "s",
@@ -50,7 +50,7 @@ export class AuthService {
   }
   async verifyOtp(VerifyOtpDto: VerifyOtpDto): Promise<TokenPair> {
     const userId = await this.otpService.verifyOtp(VerifyOtpDto);
-    const payload: IJwtPayload = { id: userId };
+    const payload: IJwtAccesePayload = { id: userId };
     const user = await this.userService.getUserById(userId);
     if (!user.isVerified) {
       await this.userService.verifyUser(userId);

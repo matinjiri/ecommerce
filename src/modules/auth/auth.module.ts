@@ -13,20 +13,24 @@ import { UserModule } from "../user/user.module";
 import { SignupStrategyFactory } from "./factories/signup.factory";
 import { SmsSignupStrategy } from "./strategies/sms-signup.strategy";
 import { EmailSignupStrategy } from "./strategies/email-signup.strategy";
+import { PassportModule } from "@nestjs/passport";
+import { JwtAccessTokenStrategy } from "./strategies/jwt/jwt-access.strategy";
 
 @Module({
   imports: [
+    PassportModule,
     JwtModule.register({
       global: true,
       secret: 'secret',
       signOptions: { expiresIn: '60s' },
     }),
     OtpModule,
-    UserModule
+    UserModule,
   ],
   controllers: [AuthController],
   providers: [
-    AuthService, 
+    AuthService,
+    JwtAccessTokenStrategy, 
     LoginStrategyFactory,
     SignupStrategyFactory,
     EmailLoginStrategy,
