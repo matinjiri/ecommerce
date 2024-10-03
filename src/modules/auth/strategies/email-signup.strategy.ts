@@ -18,7 +18,7 @@ export class EmailSignupStrategy implements ISignupStrategy {
       );
     const createdUser = await this.userService.saveUser({
       email: signupDto.email,
-      role: UserRole.User,
+      roles: [UserRole.User],
     } as User);
     return createdUser;
   }

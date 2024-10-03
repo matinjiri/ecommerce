@@ -18,7 +18,7 @@ export class SmsSignupStrategy implements ISignupStrategy {
       );
     const createdUser = await this.userService.saveUser({
       phoneNumber: signupDto.phoneNumber,
-      role: UserRole.User,
+      roles: [UserRole.User],
     } as User);
     return createdUser;
   }

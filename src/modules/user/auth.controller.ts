@@ -5,6 +5,8 @@ import { UserService } from "./user.service";
 import { UserId } from "src/common/decorators/user/user-id.decorator";
 import { CreateAddressDto } from "src/common/dtos/user/create-address.dto";
 import { UpdateAddressDto } from "src/common/dtos/user/update-address.dto";
+import { Roles } from "src/common/decorators/user/roles.decorator";
+import { RoleGuard } from "../auth/guards/role.guard";
 
 @ApiTags("user")
 @ApiBearerAuth("Authorization")

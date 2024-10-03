@@ -1,31 +1,48 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
+import { UserRole } from "src/common/enums/user/user-role.enum";
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
+} from "typeorm";
 
-@Entity('users')
+@Entity("users")
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar', nullable: true })
+  @Column({ type: "varchar", nullable: true })
   fullname: string;
 
-  @Column({ type: 'varchar' })
-  role: string;
+  @Column({
+    type: "varchar",
+    array: true,
+    // default: () => `'{${UserRole.User}}'`,
+  })
+  roles: UserRole[];
 
-  @Column({ name: "phone_number", type: 'varchar', unique: true, nullable: true })
+  @Column({
+    name: "phone_number",
+    type: "varchar",
+    unique: true,
+    nullable: true,
+  })
   phoneNumber: string;
 
-  @Column({ type: 'varchar', unique: true, nullable: true })
+  @Column({ type: "varchar", unique: true, nullable: true })
   email: string;
 
-  @Column({ name: 'is_verified', type: 'boolean', default: false })
-  isVerified: boolean; 
+  @Column({ name: "is_verified", type: "boolean", default: false })
+  isVerified: boolean;
 
-  @CreateDateColumn({name: "created_at"})
+  @CreateDateColumn({ name: "created_at" })
   createdAt: Date;
 
-  @UpdateDateColumn({name: "updated_at"})
+  @UpdateDateColumn({ name: "updated_at" })
   updatedAt: Date;
 
-  @DeleteDateColumn({name: "deleted_at", nullable: true})
+  @DeleteDateColumn({ name: "deleted_at", nullable: true })
   deletedAt: Date;
 }

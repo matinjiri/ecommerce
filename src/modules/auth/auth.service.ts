@@ -50,8 +50,8 @@ export class AuthService {
   }
   async verifyOtp(VerifyOtpDto: VerifyOtpDto): Promise<TokenPair> {
     const userId = await this.otpService.verifyOtp(VerifyOtpDto);
-    const payload: IJwtAccesePayload = { id: userId };
     const user = await this.userService.getUserById(userId);
+    const payload: IJwtAccesePayload = { id: userId, roles: user.roles };
     if (!user.isVerified) {
       await this.userService.verifyUser(userId);
     }
