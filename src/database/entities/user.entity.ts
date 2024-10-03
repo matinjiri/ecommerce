@@ -5,8 +5,8 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar', unique: true, nullable: true })
-  username: string;
+  @Column({ type: 'varchar', nullable: true })
+  fullname: string;
 
   @Column({ type: 'varchar' })
   role: string;
