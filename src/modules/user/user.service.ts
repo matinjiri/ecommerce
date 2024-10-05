@@ -61,17 +61,27 @@ export class UserService {
     } as UserAddress);
   }
   async softDeleteAddress(userId: number, addressId: number): Promise<void> {
-    const address = await this.getAddressById(userId, addressId);
-    address.deletedAt = new Date();
-    await this.userAddressRepository.save(address);
+    await this.userAddressRepository.softDelete({
+      user: { id: userId },
+      id: addressId,
+    });
   }
   async updateAddress(
     userId: number,
     addressId: number,
     updateAddressDto: UpdateAddressDto
   ): Promise<UserAddress> {
-    const address = await this.getAddressById(userId, addressId);
-    Object.assign(address, updateAddressDto);
-    return this.userAddressRepository.save(address);
+    const newUserAddress = {
+      address: updateAddressDto.address,
+      title: updateAddressDto.title,
+    } as UpdateAddressDto;
+    const updatedUserAddress = await this.userAddressRepository
+      .createQueryBuilder()
+      .update()
+      .set(newUserAddress)
+      .where("id = :id and userId = :userId", { id: addressId, userId })
+      .returning("*")
+      .execute();
+    return updatedUserAddress.raw[0];
   }
 }

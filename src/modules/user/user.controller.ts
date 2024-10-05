@@ -29,7 +29,7 @@ export class UserController {
   async getAddresses(@UserId() userId: number) {
     return this.userService.getAddresses(userId);
   }
-  @Patch(':addressId')
+  @Patch('address/:addressId')
   async updateAddress(
     @UserId() userId: number,
     @Param('addressId') addressId: number,
@@ -37,7 +37,7 @@ export class UserController {
   ) {
     return this.userService.updateAddress(userId, addressId, updateAddressDto);
   }
-  @Delete(':addressId')
+  @Delete('address/:addressId')
   async deleteAddress(@UserId() userId: number, @Param('addressId') addressId: number) {
     return this.userService.softDeleteAddress(userId, addressId); // Use soft delete here
   }

@@ -9,6 +9,7 @@ import redisConfig from "./config/redis.config";
 import { OtpModule } from "./modules/otp/otp.module";
 import mailConfig from "./config/mail.config";
 import { MailModule } from "./shared/services/mail/mail.module";
+import { ProductModule } from "./modules/product/product.module";
 
 @Module({
   imports: [
@@ -28,7 +29,8 @@ import { MailModule } from "./shared/services/mail/mail.module";
     }),
     MailModule,
     AuthModule,
-    OtpModule
+    OtpModule,
+    ProductModule
   ],
   controllers: [AppController],
 })
